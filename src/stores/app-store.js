@@ -20,10 +20,10 @@ export const initialState = {
     }
 }
 
-export default function configureStore(initialState) {
+export default function configureStore(otherState) {
     return createStore(
         reducers,
-        initialState,
+        Object.assign({}, initialState, otherState),
         applyMiddleware(thunk)
     );
 }

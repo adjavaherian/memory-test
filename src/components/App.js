@@ -9,12 +9,14 @@ import Card from './Card';
 
 export class App extends Component {
   componentDidMount() {
-    console.log('get', this.props);
+    console.log('get', this.props.cards);
   }
   render() {
     return (
       <div className="game">
-        <Card />
+        {this.props.cards.map((card, i) => {
+          return <Card {...card} key={i} />
+        })}
       </div>
     );
   }
@@ -22,6 +24,7 @@ export class App extends Component {
 
 // AppContainer.js
 const mapStateToProps = (state) => ({
+  cards: state.game.cards,
   game: state.game
 });
 
