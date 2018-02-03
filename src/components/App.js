@@ -3,19 +3,21 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCards } from '../actions/game-actions';
-// const init = require('../actions/init');
+import { getCards, cardClick } from '../actions/game-actions';
 import Card from './Card';
 
 export class App extends Component {
-  componentDidMount() {
-    console.log('get', this.props.cards);
+  constructor(props) {
+    super(props);
+    this.cardClick = props.cardClick.bind(this);
   }
+  componentDidMount() {}
   render() {
+    console.log(this.props.game);
     return (
       <div className="game">
         {this.props.cards.map((card, i) => {
-          return <Card {...card} key={i} />
+          return <Card {...card} key={i} onClick={this.cardClick} />
         })}
       </div>
     );
@@ -25,11 +27,13 @@ export class App extends Component {
 // AppContainer.js
 const mapStateToProps = (state) => ({
   cards: state.game.cards,
-  game: state.game
+  totalClicks: state.game.totalClicks,
+  game: state
 });
 
 const mapDispatchToProps = {
-  getCards
+  getCards,
+  cardClick
 };
 
 const AppContainer = connect(

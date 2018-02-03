@@ -1,6 +1,4 @@
 // actions.js
 
-export const getCards = (cards) => ({
-    type: 'GET_CARDS',
-    cards
-});
+export const getCards = () => ({ type: 'GET_CARDS' });
+export const cardClick = () => ({ type: 'CARD_CLICK' });
