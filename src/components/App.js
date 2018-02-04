@@ -3,7 +3,7 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCards, cardClick } from '../actions/game-actions';
+import { cardClick } from '../actions/game-actions';
 import Card from './Card';
 
 export class App extends Component {
@@ -13,11 +13,11 @@ export class App extends Component {
   }
   componentDidMount() {}
   render() {
-    console.log(this.props.game);
+    console.log('game', this.props.state);
     return (
       <div className="game">
-        {this.props.cards.map((card, i) => {
-          return <Card {...card} key={i} onClick={this.cardClick} />
+        {this.props.shuffled.map((id, i) => {
+          return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
         })}
       </div>
     );
@@ -26,13 +26,13 @@ export class App extends Component {
 
 // AppContainer.js
 const mapStateToProps = (state) => ({
-  cards: state.game.cards,
-  totalClicks: state.game.totalClicks,
-  game: state
+  cards: state.cards,
+  shuffled: state.shuffled,
+  totalClicks: state.totalClicks,
+  state: state
 });
 
 const mapDispatchToProps = {
-  getCards,
   cardClick
 };
 
