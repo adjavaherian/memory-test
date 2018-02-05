@@ -20,7 +20,7 @@ export const initialState = {
     }
   ],
   totalClicks: 0,
-  openCards: []
+  open: null
 }
 
 export const store = createStore(
