@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { cardClick } from '../actions/game-actions';
 import Card from './Card';
+import Stats from './Stats';
 
 export class App extends Component {
   constructor(props) {
@@ -16,10 +17,14 @@ export class App extends Component {
     console.log('game', this.props.state);
     return (
       <div className="game">
-        {this.props.shuffled.map((id, i) => {
-          return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
-        })}
-      </div>
+        <div className="game">
+          {this.props.shuffled.map((id, i) => {
+            return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
+          })}
+        </div>
+        <Stats totalClicks={this.props.totalClicks} />
+     </div>
+
     );
   }
 }

@@ -7,14 +7,38 @@ import thunk from 'redux-thunk';
 export const initialState = {
   cards: [
     {
-      name: 'php',
+      name: 'one',
       img: '/images/1_.jpg',
       id: 1,
       picked: false
     },
     {
-      name: 'css3',
+      name: 'two',
       img: '/images/2_.jpg',
+      id: 2,
+      picked: false
+    },
+    {
+      name: 'three',
+      img: '/images/3_.jpg',
+      id: 1,
+      picked: false
+    },
+    {
+      name: 'four',
+      img: '/images/4_.jpg',
+      id: 2,
+      picked: false
+    },
+    {
+      name: 'five',
+      img: '/images/5_.jpg',
+      id: 1,
+      picked: false
+    },
+    {
+      name: 'six',
+      img: '/images/6_.jpg',
       id: 2,
       picked: false
     }
