@@ -8,38 +8,38 @@ export const initialState = {
   cards: [
     {
       name: 'one',
-      img: '/images/1_.jpg',
+      img: './images/1_.jpg',
       id: 1,
       picked: false
     },
     {
       name: 'two',
-      img: '/images/2_.jpg',
+      img: './images/2_.jpg',
       id: 2,
       picked: false
     },
     {
       name: 'three',
-      img: '/images/3_.jpg',
-      id: 1,
+      img: './images/3_.jpg',
+      id: 3,
       picked: false
     },
     {
       name: 'four',
-      img: '/images/4_.jpg',
-      id: 2,
+      img: './images/4_.jpg',
+      id: 4,
       picked: false
     },
     {
       name: 'five',
-      img: '/images/5_.jpg',
-      id: 1,
+      img: './images/5_.jpg',
+      id: 5,
       picked: false
     },
     {
       name: 'six',
-      img: '/images/6_.jpg',
-      id: 2,
+      img: './images/6_.jpg',
+      id: 6,
       picked: false
     }
   ],

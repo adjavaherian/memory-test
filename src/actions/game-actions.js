@@ -49,13 +49,13 @@ export const cardClick = (id) => {
     dispatch(cardOpen(currentCard));
 
     if (prevCard === null) { // nothing open
-      // console.log('nothing open');
+      console.log('nothing open');
       dispatch(setOpen(currentCard));
       return true
     }
 
     if (prevCard === currentCard) { // same card
-      // console.log('same card');
+      console.log('same card');
       dispatch(cardClose(currentCard));
       dispatch(setClosed());
       // lock current and prev
@@ -64,13 +64,14 @@ export const cardClick = (id) => {
 
     if (prevCard !== currentCard) { // other card
       // check for match
-      // console.log('other card');
+      console.log('other card');
       if (prevCard && cards[prevCard].id === cards[currentCard].id) { // match
           // lock both cards open, null out open card
-          // console.log('card match');
+          console.log('card match');
+          // debugger;
       } else {
         // close both cards, null
-        // console.log('no match');
+        console.log('no match');
         setTimeout(() => {
           dispatch(cardClose(prevCard));
           dispatch(cardClose(currentCard));
