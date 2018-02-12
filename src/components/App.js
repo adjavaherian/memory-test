@@ -31,10 +31,10 @@ export class App extends Component {
 
 // AppContainer.js
 const mapStateToProps = (state) => ({
-  cards: state.cards,
-  shuffled: state.shuffled,
-  totalClicks: state.totalClicks,
-  state: state
+  cards: state.game.cards,
+  shuffled: state.game.shuffled,
+  totalClicks: state.game.totalClicks,
+  state: state.game
 });
 
 const mapDispatchToProps = {

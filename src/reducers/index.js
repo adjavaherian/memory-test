@@ -1,4 +1,6 @@
 // reducers.js
+import { combineReducers } from 'redux';
+import { initialState } from '../stores/app-store';
 import {
   CREATE_DECK,
   SHUFFLE_DECK,
@@ -7,10 +9,11 @@ import {
   SET_OPEN,
   SET_CLOSED,
   CARD_OPEN,
-  CARD_CLOSE
+  CARD_CLOSE,
+  CARD_LOCK
 } from '../actions/game-actions';
 
-export const reducer = (state = {}, action) => {
+export const game = (state = {}, action) => {
 
   const updatedCards = Object.assign({}, state.cards);
 
@@ -39,6 +42,11 @@ export const reducer = (state = {}, action) => {
       return Object.assign({}, state, {
         cards: updatedCards
       });
+    case CARD_LOCK:
+      updatedCards[action.id] = Object.assign({}, state.cards[action.id], { locked: true });
+      return Object.assign({}, state, {
+        cards: updatedCards
+      });
     case SET_OPEN:
       return Object.assign({}, state, {
         open: action.id
@@ -51,3 +59,15 @@ export const reducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const appReducer = combineReducers({
+  game,
+});
+
+export const rootReducer = (state, action) => {
+  if (action.type === 'NEW_GAME') {
+    state = Object.assign({}, { game: Object.assign({}, initialState, { gameNumber: state.gameNumber++ }) });
+  }
+
+  return appReducer(state, action)
+}

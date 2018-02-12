@@ -3,7 +3,9 @@
 export const CREATE_DECK = 'CREATE_DECK';
 export const createDeck = () => {
   return (dispatch, getState) => {
-    const { cards } = getState();
+    debugger;
+    const { game } = getState();
+    const { cards } = game;
     const cardHash = cards
                       .concat(cards)
                       .reduce((prev, next, index) => {
@@ -26,7 +28,8 @@ export const shuffleDeck = () => {
   }
 
   return (dispatch, getState) => {
-    const { cards } = getState();
+    const { game } = getState();
+    const { cards } = game;
     const shuffled = shuffleArray(Object.keys(cards));
     dispatch({ type: SHUFFLE_DECK, shuffled });
   }
@@ -35,23 +38,29 @@ export const shuffleDeck = () => {
 export const CARD_CLICK = 'CARD_CLICK';
 export const cardClick = (id) => {
   return (dispatch, getState) => {
-    dispatch({ type: CARD_CLICK, id });
-    dispatch({ type: INCREMENT_CLICKS, id });
 
-    const { open, cards } = getState();
+    const { game } = getState();
+    const { open, cards } = game;
 
     const currentCard = id;
     const prevCard = open;
+    const isLocked = cards[currentCard].locked;
 
     // debugger;
-    // console.log('curr/prev', currentCard, prevCard);
+    console.log('curr/prev', currentCard, prevCard, isLocked);
 
-    dispatch(cardOpen(currentCard));
+    if (isLocked) { // check for lock
+      return true;
+    } else {
+      dispatch({ type: CARD_CLICK, id });
+      dispatch({ type: INCREMENT_CLICKS, id });
+      dispatch(cardOpen(currentCard));
+    }
 
     if (prevCard === null) { // nothing open
       console.log('nothing open');
       dispatch(setOpen(currentCard));
-      return true
+      return true;
     }
 
     if (prevCard === currentCard) { // same card
@@ -68,7 +77,8 @@ export const cardClick = (id) => {
       if (prevCard && cards[prevCard].id === cards[currentCard].id) { // match
           // lock both cards open, null out open card
           console.log('card match');
-          // debugger;
+          dispatch(cardLock(prevCard));
+          dispatch(cardLock(currentCard));
       } else {
         // close both cards, null
         console.log('no match');
@@ -96,6 +106,13 @@ export const CARD_CLOSE = 'CARD_CLOSE';
 export const cardClose = (id) => {
   return (dispatch) => {
     dispatch({ type: CARD_CLOSE, id });
+  }
+}
+
+export const CARD_LOCK = 'CARD_LOCK';
+export const cardLock = (id) => {
+  return (dispatch) => {
+    dispatch({ type: CARD_LOCK, id });
   }
 }
 

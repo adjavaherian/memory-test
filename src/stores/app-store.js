@@ -1,7 +1,7 @@
 // store.js
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { reducer } from '../reducers';
+import { rootReducer } from '../reducers';
 import thunk from 'redux-thunk';
 
 export const initialState = {
@@ -44,12 +44,13 @@ export const initialState = {
     }
   ],
   totalClicks: 0,
-  open: null
+  open: null,
+  gameNumber: 1
 }
 
 export const store = createStore(
-    reducer,
-    initialState,
+    rootReducer,
+    { game: initialState },
     composeWithDevTools(
       applyMiddleware(thunk)
     )
