@@ -3,7 +3,6 @@
 export const CREATE_DECK = 'CREATE_DECK';
 export const createDeck = () => {
   return (dispatch, getState) => {
-    debugger;
     const { game } = getState();
     const { cards } = game;
     const cardHash = cards
@@ -95,45 +94,23 @@ export const cardClick = (id) => {
   }
 };
 
+export const RESTART = 'RESTART';
+export const restart = () => (dispatch) => dispatch({ type: RESTART });
+
 export const CARD_OPEN = 'CARD_OPEN';
-export const cardOpen = (id) => {
-  return (dispatch) => {
-    dispatch({ type: CARD_OPEN, id });
-  }
-}
+export const cardOpen = (id) => (dispatch) => dispatch({ type: CARD_OPEN, id });
 
 export const CARD_CLOSE = 'CARD_CLOSE';
-export const cardClose = (id) => {
-  return (dispatch) => {
-    dispatch({ type: CARD_CLOSE, id });
-  }
-}
+export const cardClose = (id) => (dispatch) => dispatch({ type: CARD_CLOSE, id });
 
 export const CARD_LOCK = 'CARD_LOCK';
-export const cardLock = (id) => {
-  return (dispatch) => {
-    dispatch({ type: CARD_LOCK, id });
-  }
-}
+export const cardLock = (id) => (dispatch) => dispatch({ type: CARD_LOCK, id });
 
 export const INCREMENT_CLICKS = 'INCREMENT_CLICKS';
-export const incrementClicks = () => {
-  return (dispatch) => {
-    dispatch({ type: INCREMENT_CLICKS });
-  }
-};
+export const incrementClicks = () => (dispatch) =>  dispatch({ type: INCREMENT_CLICKS });
 
 export const SET_OPEN = 'SET_OPEN';
-export const setOpen = (id) => {
-  return (dispatch) => {
-    dispatch({ type: SET_OPEN, id });
-  }
-
-};
+export const setOpen = (id) => (dispatch) => dispatch({ type: SET_OPEN, id });
 
 export const SET_CLOSED = 'SET_CLOSED';
-export const setClosed = () => {
-  return (dispatch) => {
-    dispatch({ type: SET_CLOSED });
-  }
-};
+export const setClosed = () => (dispatch) => dispatch({ type: SET_CLOSED });

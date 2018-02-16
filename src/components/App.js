@@ -3,14 +3,17 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cardClick } from '../actions/game-actions';
+import { cardClick, restart } from '../actions/game-actions';
 import Card from './Card';
 import Stats from './Stats';
+import Controls from './Controls';
+import UserForm from './UserForm';
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.cardClick = props.cardClick.bind(this);
+    this.restart = props.restart.bind(this);
   }
   componentDidMount() {}
   render() {
@@ -22,6 +25,8 @@ export class App extends Component {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div>
+        <UserForm {...this.props} />
+        <Controls restart={this.restart} />
         <Stats totalClicks={this.props.totalClicks} />
      </div>
 
@@ -38,7 +43,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  cardClick
+  cardClick,
+  restart
 };
 
 const AppContainer = connect(

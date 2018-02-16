@@ -65,8 +65,11 @@ export const appReducer = combineReducers({
 });
 
 export const rootReducer = (state, action) => {
-  if (action.type === 'NEW_GAME') {
-    state = Object.assign({}, { game: Object.assign({}, initialState, { gameNumber: state.gameNumber++ }) });
+
+  if (action.type === 'RESTART') {
+    const gameNumber = state.game.gameNumber + 1;
+    const updatedState = Object.assign({}, initialState, { gameNumber });
+    state = Object.assign({}, { game: updatedState });
   }
 
   return appReducer(state, action)
