@@ -8,6 +8,7 @@ import Card from './Card';
 import Stats from './Stats';
 import Controls from './Controls';
 import UserForm from './UserForm';
+import classnames from 'classnames';
 
 export class App extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export class App extends Component {
     this.saveForm = () => {
       console.log('save form');
     }
+    this.rowClasses = classnames('row');
   }
   componentDidMount() {}
   render() {
@@ -28,9 +30,9 @@ export class App extends Component {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div> */}
-        <UserForm {...this.props} saveForm={this.saveForm} />
-        <Controls restart={this.restart} />
-        <Stats totalClicks={this.props.totalClicks} />
+        <UserForm className={this.rowClasses} {...this.props} onSubmit={this.saveForm} />
+        <Controls className={this.rowClasses} restart={this.restart} />
+        <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>
 
     );

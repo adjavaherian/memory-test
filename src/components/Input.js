@@ -7,17 +7,17 @@ export const Input = ({
   meta: { touched, error, warning },
 }) => {
   return (
-    <div>
-      <div>
+    <div className="row">
+      <div className="col-sm-6">
         <label>{label}</label>
       </div>
-      <div>
+      <div className="col-sm-6">
         <input {...input} type={type} />
       </div>
       {
         touched &&
         error &&
-        <div>
+        <div className="col-sm-6">
           {error}
         </div>
       }
