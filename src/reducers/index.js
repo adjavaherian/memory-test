@@ -1,5 +1,6 @@
 // reducers.js
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import { initialState } from '../stores/app-store';
 import {
   CREATE_DECK,
@@ -61,7 +62,8 @@ export const game = (state = {}, action) => {
 };
 
 export const appReducer = combineReducers({
-  game,
+  form: formReducer,
+  game
 });
 
 export const rootReducer = (state, action) => {

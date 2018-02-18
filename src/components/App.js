@@ -14,18 +14,21 @@ export class App extends Component {
     super(props);
     this.cardClick = props.cardClick.bind(this);
     this.restart = props.restart.bind(this);
+    this.saveForm = () => {
+      console.log('save form');
+    }
   }
   componentDidMount() {}
   render() {
     console.log('game', this.props.state);
     return (
-      <div className="game">
-        <div className="game">
+      <div className="wrap container">
+        {/* <div className="game">
           {this.props.shuffled.map((id, i) => {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
-        </div>
-        <UserForm {...this.props} />
+        </div> */}
+        <UserForm {...this.props} saveForm={this.saveForm} />
         <Controls restart={this.restart} />
         <Stats totalClicks={this.props.totalClicks} />
      </div>
