@@ -3,17 +3,17 @@ import { Field, reduxForm } from 'redux-form';
 import classnames from 'classnames';
 import Input from './Input';
 
-const required = value => value ? undefined : 'Required';
+const required = value => value ? undefined : undefined;
 
 export const UserForm = (props) => {
   const inputs = {
     age: { val: '', type: 'text', label: 'Age', name: 'age', validators: [required] },
     gender: { val: '', type: 'text', label: 'Gender', name: 'gender', validators: [required] },
-    // injury: false,
-    // uid: null,
-    // name: null,
-    // nationality: null,
-    // ethnicity: null
+    injury: { val: '', type: 'text', label: 'Injury', name: 'injury', validators: [required] },
+    uid: { val: '', type: 'text', label: 'UId', name: 'uid', validators: [required] },
+    name: { val: '', type: 'text', label: 'Name', name: 'name', validators: [required] },
+    nationality: { val: '', type: 'text', label: 'Nationality', name: 'nationality', validators: [required] },
+    ethnicity: { val: '', type: 'text', label: 'Ethnicity', name: 'ethnicty', validators: [required] }
   };
   const { handleSubmit, pristine, reset, submitting } = props
   const formClasses = classnames('user-form', 'container');

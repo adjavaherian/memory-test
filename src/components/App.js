@@ -3,7 +3,7 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cardClick, restart } from '../actions/game-actions';
+import { cardClick, restart, saveUser } from '../actions/game-actions';
 import Card from './Card';
 import Stats from './Stats';
 import Controls from './Controls';
@@ -15,9 +15,7 @@ export class App extends Component {
     super(props);
     this.cardClick = props.cardClick.bind(this);
     this.restart = props.restart.bind(this);
-    this.saveForm = () => {
-      console.log('save form');
-    }
+    this.saveUser = props.saveUser.bind(this);
     this.rowClasses = classnames('row');
   }
   componentDidMount() {}
@@ -25,12 +23,12 @@ export class App extends Component {
     console.log('game', this.props.state);
     return (
       <div className="wrap container">
-        {/* <div className="game">
+        <div className="game">
           {this.props.shuffled.map((id, i) => {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
-        </div> */}
-        <UserForm className={this.rowClasses} {...this.props} onSubmit={this.saveForm} />
+        </div>
+        <UserForm className={this.rowClasses} {...this.props} onSubmit={this.saveUser} />
         <Controls className={this.rowClasses} restart={this.restart} />
         <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>
@@ -49,7 +47,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   cardClick,
-  restart
+  restart,
+  saveUser
 };
 
 const AppContainer = connect(

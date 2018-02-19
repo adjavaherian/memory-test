@@ -1,5 +1,5 @@
 // actions.js
-
+const axios = require('axios');
 export const CREATE_DECK = 'CREATE_DECK';
 export const createDeck = () => {
   return (dispatch, getState) => {
@@ -114,3 +114,26 @@ export const setOpen = (id) => (dispatch) => dispatch({ type: SET_OPEN, id });
 
 export const SET_CLOSED = 'SET_CLOSED';
 export const setClosed = () => (dispatch) => dispatch({ type: SET_CLOSED });
+
+export const SAVE_USER = 'SAVE_USER';
+export const saveUser = () => {
+  return (dispatch, getState) => {
+      const { form } = getState();
+      const data = form.userForm.values;
+      console.log('form', data);
+
+      axios({
+        url: 'http://localhost:3000/create-user',
+        method: 'put',
+        data
+        })
+        .then((response) => {
+          console.log('response', response);
+          dispatch({ type: SAVE_USER });
+        })
+        .catch((err) => {
+          console.log('error', err);
+        });
+
+    }
+}
