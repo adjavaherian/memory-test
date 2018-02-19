@@ -4,6 +4,7 @@ export const Input = ({
   input,
   label,
   type,
+  value,
   meta: { touched, error, warning },
 }) => {
   return (
@@ -12,7 +13,7 @@ export const Input = ({
         <label>{label}</label>
       </div>
       <div className="col-sm-6">
-        <input {...input} type={type} />
+        <input {...input} type={type} value={value} />
       </div>
       {
         touched &&

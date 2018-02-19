@@ -129,7 +129,10 @@ export const saveUser = () => {
         })
         .then((response) => {
           console.log('response', response);
-          dispatch({ type: SAVE_USER });
+          if (response.status === 200) {
+            dispatch({ type: SAVE_USER, id: response.data._id });
+          }
+
         })
         .catch((err) => {
           console.log('error', err);

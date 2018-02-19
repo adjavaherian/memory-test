@@ -28,7 +28,7 @@ export class App extends Component {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div>
-        <UserForm className={this.rowClasses} {...this.props} onSubmit={this.saveUser} />
+        <UserForm className={this.rowClasses} onSubmit={this.saveUser} userForm={this.props.userForm} />
         <Controls className={this.rowClasses} restart={this.restart} />
         <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>
@@ -42,6 +42,7 @@ const mapStateToProps = (state) => ({
   cards: state.game.cards,
   shuffled: state.game.shuffled,
   totalClicks: state.game.totalClicks,
+  userForm: state.form.userForm || {},
   state: state.game
 });
 

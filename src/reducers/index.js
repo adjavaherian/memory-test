@@ -11,7 +11,9 @@ import {
   SET_CLOSED,
   CARD_OPEN,
   CARD_CLOSE,
-  CARD_LOCK
+  CARD_LOCK,
+  RESTART,
+  SAVE_USER
 } from '../actions/game-actions';
 
 export const game = (state = {}, action) => {
@@ -68,10 +70,18 @@ export const appReducer = combineReducers({
 
 export const rootReducer = (state, action) => {
 
-  if (action.type === 'RESTART') {
+  if (action.type === RESTART) {
     const gameNumber = state.game.gameNumber + 1;
     const updatedState = Object.assign({}, initialState, { gameNumber });
     state = Object.assign({}, { game: updatedState });
+  }
+
+  if (action.type === SAVE_USER) {
+    console.log('actionid', action.id);
+    const values = Object.assign({}, state.form.userForm.values, { uid: action.id });
+    const userForm = Object.assign({}, state.form.userForm, { values });
+    // debugger;
+    state = Object.assign({}, state, { form: { userForm } });
   }
 
   return appReducer(state, action)
