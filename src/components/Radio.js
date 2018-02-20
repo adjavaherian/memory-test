@@ -1,19 +1,28 @@
 import React from 'react'
 
-export const Input = ({
+export const Radio = ({
   input,
   label,
   type,
-  value
+  value,
+  name,
+  options
 }) => {
   return (
     <div className="row">
       <div className="col-sm-6">
         <label>{label}</label>
       </div>
-      <div className="col-sm-6">
-        <input type="text" />
-      </div>
+      {
+        options.map((val, key) => {
+          return (
+            <div className="col-sm-2" key={key}>
+              <input type="radio" name={name} />
+              <span> {val}</span>
+            </div>
+          )
+        })
+      }
       {
         // touched &&
         // error &&
@@ -25,4 +34,4 @@ export const Input = ({
   )
 }
 
-export default Input;
+export default Radio;
