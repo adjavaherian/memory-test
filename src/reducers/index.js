@@ -1,6 +1,6 @@
 // reducers.js
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
+import { modelReducer, formReducer } from 'react-redux-form';
 import { initialState } from '../stores/app-store';
 import {
   CREATE_DECK,
@@ -63,26 +63,37 @@ export const game = (state = {}, action) => {
   }
 };
 
-export const appReducer = combineReducers({
-  form: formReducer,
-  game
+export const userState = {
+  age: 1,
+  gender: 'm',
+  injury: null,
+  uid: null,
+  name: null,
+  nationality: null,
+  ethnicity: null
+};
+
+export const rootReducer = combineReducers({
+  game,
+  user: modelReducer('user', userState),
+  userForm: formReducer('user', userState)
 });
 
-export const rootReducer = (state, action) => {
-
-  if (action.type === RESTART) {
-    const gameNumber = state.game.gameNumber + 1;
-    const updatedState = Object.assign({}, initialState, { gameNumber });
-    state = Object.assign({}, { game: updatedState });
-  }
-
-  if (action.type === SAVE_USER) {
-    console.log('actionid', action.id);
-    const values = Object.assign({}, state.form.userForm.values, { uid: action.id });
-    const userForm = Object.assign({}, state.form.userForm, { values });
-    // debugger;
-    state = Object.assign({}, state, { form: { userForm } });
-  }
-
-  return appReducer(state, action)
-}
+// export const rootReducer = (state, action) => {
+//
+//   if (action.type === RESTART) {
+//     const gameNumber = state.game.gameNumber + 1;
+//     const updatedState = Object.assign({}, initialState, { gameNumber });
+//     state = Object.assign({}, { game: updatedState });
+//   }
+//
+//   if (action.type === SAVE_USER) {
+//     console.log('actionid', action.id);
+//     const values = Object.assign({}, state.form.userForm.values, { uid: action.id });
+//     const userForm = Object.assign({}, state.form.userForm, { values });
+//     // debugger;
+//     state = Object.assign({}, state, { form: { userForm } });
+//   }
+//
+//   return appReducer(state, action)
+// }

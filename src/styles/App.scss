@@ -18,13 +18,24 @@ body {
 .wrap {
   position: relative;
   height: 100%;
+	max-width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 5px;
 }
 
 .game {
 	transform-style: preserve-3d;
-	perspective: 500px;
-	min-height: 100%;
-  height: 100%;
+	min-height: 600px;
+  border: 1px solid black;
+  display: flex;
+	flex-wrap: wrap;
+  text-align: center;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 700px;
+  text-align: center;
 }
 
 .form-buttons {
@@ -47,15 +58,25 @@ body {
 	}
 }
 
+.game--3cols > .card  { width: 157px; height: 157px; }
+
 .card {
-  float: left;
-  width: 16.66666%;
-  height: 25%;
-  padding: 5px;
+	background: #000;
+  flex-grow: 1;
+	height: 157px;
+  width: 100%;  // Default to full width
+  overflow: hidden; // Or flex might break
+  list-style: none;
+
+
+
+  // width: 16.66666%;
+  // height: 25%;
+  // padding: 5px;
   text-align: center;
-	display: block;
-	perspective: 500px;
-	position: relative;
+	// display: block;
+	// perspective: 500px;
+	// position: relative;
 	cursor: pointer;
   z-index: 50;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -66,7 +87,7 @@ body {
 	.inside {
 		width: 100%;
 		height: 100%;
-		display: block;
+		// display: block;
 		transform-style: preserve-3d;
 		transition: .4s ease-in-out;
 		background: white;
@@ -111,128 +132,224 @@ body {
   }
 }
 
-.modal-overlay {
-	display: none;
-	background: rgba(0,0,0,.8);
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+// .modal-overlay {
+// 	display: none;
+// 	background: rgba(0,0,0,.8);
+// 	position: fixed;
+// 	top: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	height: 100%;
+// }
+//
+// .modal {
+// 	display: none;
+// 	position: relative;
+// 	width: 500px;
+// 	height: 400px;
+// 	max-height: 90%;
+// 	max-width: 90%;
+// 	min-height: 380px;
+// 	margin: 0 auto;
+// 	background: white;
+// 	top: 50%;
+// 	transform: translateY(-50%);
+// 	padding: 30px 10px;
+// 	.winner {
+// 		font-size: 80px;
+// 		text-align: center;
+// 		font-family: "Anton", sans-serif;
+// 		color: #4d4d4d;
+// 		text-shadow: 0px 3px 0 black;
+// 		@include width(480px){
+// 			font-size: 60px;
+// 		}
+// 	}
+// 	.restart {
+// 		font-family: "Anton", sans-serif;
+// 		margin: 30px auto;
+// 		padding: 20px 30px;
+// 		display: block;
+// 		font-size: 30px;
+// 		border: none;
+// 		background: #4d4d4d;
+// 		background: linear-gradient(#4d4d4d, #222);
+// 		border: 1px solid #222;
+// 		border-radius: 5px;
+// 		color: white;
+// 		text-shadow: 0px 1px 0 black;
+// 		cursor: pointer;
+// 		&:hover {
+// 			background: linear-gradient(#222, black);
+// 		}
+// 	}
+// 	.message {
+// 		text-align: center;
+// 		a {
+// 			text-decoration: none;
+// 			color: #28afe6;
+// 			font-weight: bold;
+// 			&:hover {
+// 				$c: lighten(#28afe6, 10%);
+// 				color: $c;
+// 				border-bottom: 1px dotted $c;
+// 			}
+// 		}
+// 	}
+// 	.share-text {
+// 		text-align: center;
+// 		margin: 10px auto;
+// 	}
+// 	.social {
+// 		margin: 20px auto;
+// 		text-align: center;
+// 		li {
+// 			display: inline-block;
+// 			height: 50px;
+// 			width: 50px;
+// 			margin-right: 10px;
+// 			&:last-child {
+// 				margin-right: 0;
+// 			}
+// 			a {
+// 				display: block;
+// 				line-height: 50px;
+// 				font-size: 20px;
+// 				color: white;
+// 				text-decoration: none;
+// 				border-radius: 5px;
+// 				&.facebook {
+// 					background: #3b5998;
+// 					&:hover {
+// 						background: lighten(#3b5998, 10%);
+// 					}
+// 				}
+// 				&.google {
+// 					background: #D34836;
+// 					&:hover {
+// 						background: lighten(#D34836, 10%);
+// 					}
+// 				}
+// 				&.twitter {
+// 					background: #4099FF;
+// 					&:hover {
+// 						background: lighten(#4099FF, 10%);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+//
+// footer {
+// 	height: 20px;
+// 	position: absolute;
+// 	bottom: 0;
+// 	width: 100%;
+//   z-index: 0;
+// 	.disclaimer {
+// 		line-height: 20px;
+// 		font-size: 12px;
+// 		color: #727272;
+// 		text-align: center;
+// 		@include width(767px){
+// 			font-size: 8px;
+// 		}
+// 	}
+// }
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+
+$color-border: #CDCDCD;
+$color-label: darken($color-border, 20%);
+$color-primary: #1695A3;
+
+.field {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.modal {
-	display: none;
-	position: relative;
-	width: 500px;
-	height: 400px;
-	max-height: 90%;
-	max-width: 90%;
-	min-height: 380px;
-	margin: 0 auto;
-	background: white;
-	top: 50%;
-	transform: translateY(-50%);
-	padding: 30px 10px;
-	.winner {
-		font-size: 80px;
-		text-align: center;
-		font-family: "Anton", sans-serif;
-		color: #4d4d4d;
-		text-shadow: 0px 3px 0 black;
-		@include width(480px){
-			font-size: 60px;
-		}
-	}
-	.restart {
-		font-family: "Anton", sans-serif;
-		margin: 30px auto;
-		padding: 20px 30px;
-		display: block;
-		font-size: 30px;
-		border: none;
-		background: #4d4d4d;
-		background: linear-gradient(#4d4d4d, #222);
-		border: 1px solid #222;
-		border-radius: 5px;
-		color: white;
-		text-shadow: 0px 1px 0 black;
-		cursor: pointer;
-		&:hover {
-			background: linear-gradient(#222, black);
-		}
-	}
-	.message {
-		text-align: center;
-		a {
-			text-decoration: none;
-			color: #28afe6;
-			font-weight: bold;
-			&:hover {
-				$c: lighten(#28afe6, 10%);
-				color: $c;
-				border-bottom: 1px dotted $c;
-			}
-		}
-	}
-	.share-text {
-		text-align: center;
-		margin: 10px auto;
-	}
-	.social {
-		margin: 20px auto;
-		text-align: center;
-		li {
-			display: inline-block;
-			height: 50px;
-			width: 50px;
-			margin-right: 10px;
-			&:last-child {
-				margin-right: 0;
-			}
-			a {
-				display: block;
-				line-height: 50px;
-				font-size: 20px;
-				color: white;
-				text-decoration: none;
-				border-radius: 5px;
-				&.facebook {
-					background: #3b5998;
-					&:hover {
-						background: lighten(#3b5998, 10%);
-					}
-				}
-				&.google {
-					background: #D34836;
-					&:hover {
-						background: lighten(#D34836, 10%);
-					}
-				}
-				&.twitter {
-					background: #4099FF;
-					&:hover {
-						background: lighten(#4099FF, 10%);
-					}
-				}
-			}
-		}
-	}
+label {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.4rem;
+  font-weight: 600;
+  color: $color-label;
 }
 
-footer {
-	height: 20px;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-  z-index: 0;
-	.disclaimer {
-		line-height: 20px;
-		font-size: 12px;
-		color: #727272;
-		text-align: center;
-		@include width(767px){
-			font-size: 8px;
-		}
-	}
+input[type="text"],
+input[type="email"],
+textarea,
+input:not([type]) {
+  appearance: none;
+  border: 1px solid $color-border;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  width: 100%;
+
+  &:focus {
+    outline: 2px solid $color-primary;
+  }
 }
+
+select {
+  border-radius: 0;
+  height: 2rem;
+  width: 100%;
+
+  &:focus {
+    border: 2px solid $color-primary;
+    outline: none;
+  }
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 1ch;
+}
+
+button {
+  appearance: none;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  background: $color-primary;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  margin: 0.5rem 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &[type="reset"] {
+    color: $color-primary;
+    border: 1px solid $color-primary;
+    background: transparent;
+  }
+
+  + button {
+    margin-left: 1rem;
+  }
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  position: relative;
+}
+
+// body {
+//   font-family: Lato, Helvetica, sans-serif;
+//   padding: 1rem;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: flex-start;
+//
+//   > #app {
+//     flex: 1 0 30rem;
+//     width: 30rem;
+//     max-width: 100%;
+//   }
+// }

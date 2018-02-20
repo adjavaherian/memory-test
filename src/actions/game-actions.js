@@ -116,12 +116,13 @@ export const SET_CLOSED = 'SET_CLOSED';
 export const setClosed = () => (dispatch) => dispatch({ type: SET_CLOSED });
 
 export const SAVE_USER = 'SAVE_USER';
-export const saveUser = () => {
+export const saveUser = (user) => {
+  console.log('save user', user);
   return (dispatch, getState) => {
-      const { form } = getState();
-      const data = form.userForm.values;
-      console.log('form', data);
-
+      const { user, userForm } = getState();
+      // const data = form.userForm.values;
+      console.log('form', user, userForm);
+      return true;
       axios({
         url: 'http://localhost:3000/create-user',
         method: 'put',

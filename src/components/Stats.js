@@ -5,7 +5,7 @@ export function Stats (props) {
     return (
       <div className="total-clicks">
         <div>
-          <span>Total Clicks &nbsp;</span><span>{props.totalClicks}</span>
+          <span>Total Clicks: &nbsp;</span><span>{props.totalClicks}</span>
         </div>
       </div>
     );

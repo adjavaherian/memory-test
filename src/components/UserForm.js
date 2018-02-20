@@ -1,5 +1,6 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Control, Form } from 'react-redux-form';
 import classnames from 'classnames';
 import Input from './Input';
 
@@ -15,51 +16,34 @@ export const UserForm = (props) => {
     nationality: { val: '', type: 'text', label: 'Nationality', name: 'nationality', validators: [required] },
     ethnicity: { val: '', type: 'text', label: 'Ethnicity', name: 'ethnicty', validators: [required] }
   };
-  const { handleSubmit, pristine, reset, submitting, userForm } = props
-  const formClasses = classnames('user-form', 'container');
-  const values = userForm.values;
-  console.log('user values', values);
+  const { handleSubmit, pristine, reset, submitting, user} = props
+  const formClasses = classnames('user-form');
 
   return (
-    <form className={formClasses} onSubmit={handleSubmit}>
+    <Form model="user" className={formClasses} onSubmit={handleSubmit}>
       {
         Object.keys(inputs)
         .map((prop, pos) => {
-          return (<Field
-                    type="text"
+          const model = '.' + inputs[prop].name;
+          console.log('model', model);
+          return (<Control.text
+                    model={model}
                     name={inputs[prop].name}
                     component={Input}
                     label={inputs[prop].label}
                     key={pos}
-                    validate={inputs[prop].validators}
+                    // validate={inputs[prop].validators}
                   />)
         })
       }
-      <div className="form-buttons row">
+      <div className="form-buttons">
         <button className="col-sm-6" type="submit" disabled={submitting}>Submit</button>
-        <button className="col-sm-6" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+        {/* <button className="col-sm-6" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button> */}
       </div>
-    </form>
+    </Form>
   )
 }
 
-const validate = (values) => {
-  console.log('values', values)
-  const errors = {};
+const selector = (state) => ({ user: state.userForm });
 
-  if (!values.age) {
-    console.log('age is required');
-    errors.age = 'Age as a number';
-  }
-
-  if (!values.gender) {
-    console.log('gender is required');
-    errors.password = 'Gender (Optional)';
-  }
-
-  return errors;
-};
-
-export default reduxForm({
-  form: 'userForm'
-})(UserForm);;
+export default connect(selector)(UserForm);

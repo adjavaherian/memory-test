@@ -4,8 +4,7 @@ export const Input = ({
   input,
   label,
   type,
-  value,
-  meta: { touched, error, warning },
+  value
 }) => {
   return (
     <div className="row">
@@ -13,13 +12,13 @@ export const Input = ({
         <label>{label}</label>
       </div>
       <div className="col-sm-6">
-        <input {...input} type={type} value={value} />
+        <input type={type} />
       </div>
       {
-        touched &&
-        error &&
+        // touched &&
+        // error &&
         <div className="col-sm-6">
-          {error}
+          {/* {error} */}
         </div>
       }
     </div>

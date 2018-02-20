@@ -20,15 +20,21 @@ export class App extends Component {
   }
   componentDidMount() {}
   render() {
-    console.log('game', this.props.state);
+    // console.log('game', this.props.state);
     return (
       <div className="wrap container">
-        <div className="game">
+        <h1>Memory Test Game</h1>
+        <p>Click on the tiles below to flip a card and start the memory game.
+          This is not a timed test, but we'll be recording amounts of clicks until all tiles are matched.
+          This is an anonymous submission, but if you'd like to track your results over time, fill out the form
+          and we'll get you a unique Id that you can use to track future games.
+        </p>
+        <div className="game game--3cols">
           {this.props.shuffled.map((id, i) => {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div>
-        <UserForm className={this.rowClasses} onSubmit={this.saveUser} userForm={this.props.userForm} />
+        <UserForm className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
         <Controls className={this.rowClasses} restart={this.restart} />
         <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>
@@ -42,7 +48,6 @@ const mapStateToProps = (state) => ({
   cards: state.game.cards,
   shuffled: state.game.shuffled,
   totalClicks: state.game.totalClicks,
-  userForm: state.form.userForm || {},
   state: state.game
 });
 
