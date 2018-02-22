@@ -7,7 +7,7 @@ import { cardClick, restart, saveUser } from '../actions/game-actions';
 import Card from './Card';
 import Stats from './Stats';
 import Controls from './Controls';
-import UserForm from './UserForm';
+import Form from './UserForm';
 import classnames from 'classnames';
 
 export class App extends Component {
@@ -25,7 +25,7 @@ export class App extends Component {
       <div className="wrap container">
         <h1>Memory Test Game</h1>
         <p>Click on the tiles below to flip a card and start the memory game.
-          This is not a timed test, but we'll be recording amounts of clicks until all tiles are matched.
+          This is not a timed test, but we'll be recording the number of clicks until all tiles are matched.
           This is an anonymous submission, but if you'd like to track your results over time, fill out the form
           and we'll get you a unique Id that you can use to track future games.
         </p>
@@ -34,7 +34,7 @@ export class App extends Component {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div>
-        <UserForm className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
+        <Form className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
         <Controls className={this.rowClasses} restart={this.restart} />
         <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>

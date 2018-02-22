@@ -119,14 +119,14 @@ export const SAVE_USER = 'SAVE_USER';
 export const saveUser = (user) => {
   console.log('save user', user);
   return (dispatch, getState) => {
-      const { user, userForm } = getState();
+      const { user } = getState();
       // const data = form.userForm.values;
-      console.log('form', user, userForm);
-      return true;
+      console.log('form', user);
+      // return true;
       axios({
         url: 'http://localhost:3000/create-user',
-        method: 'put',
-        data
+        method: 'put'
+        // data
         })
         .then((response) => {
           console.log('response', response);
@@ -140,4 +140,19 @@ export const saveUser = (user) => {
         });
 
     }
+}
+
+export const ON_CHANGE = 'ON_CHANGE';
+export const onChange = (event) => {
+  // const value = evt.target.value;
+  // console.log('value', value);
+  const name = event.target.name;
+  const value = event.target.value;
+  console.log('type', value, name);
+  return (dispatch) => {
+      // const { user } = getState();
+      dispatch({
+        type: ON_CHANGE, value, name
+      });
+  }
 }

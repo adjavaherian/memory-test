@@ -1,10 +1,15 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+import { onChange } from '../actions/game-actions';
 
 export const Input = ({
-  input,
+  name,
   label,
   type,
-  value
+  options,
+  value,
+  error,
+  onChange
 }) => {
   return (
     <div className="row">
@@ -12,17 +17,44 @@ export const Input = ({
         <label>{label}</label>
       </div>
       <div className="col-sm-6">
-        <input type="text" />
+        {
+          type === 'radio' &&
+          options.map((val, key) => {
+            return (
+              <span key={key}>
+                <input type={type} name={name} value={val.value} onChange={onChange} />
+                <span> {val} </span>
+              </span>
+            )
+          })
+        }
+        {
+          type === 'text' &&
+          <input type={type} name={name} value={value} onChange={onChange}/>
+        }
+
       </div>
       {
-        // touched &&
-        // error &&
+        error &&
         <div className="col-sm-6">
-          {/* {error} */}
+          {error}
         </div>
       }
     </div>
   )
 }
 
-export default Input;
+const mapStateToProps = (state = {}) => ({
+  user: state.user
+});
+
+const mapDispatchToProps = {
+  onChange
+};
+
+const InputContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Input);
+
+export default InputContainer;

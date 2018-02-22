@@ -3,9 +3,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer } from '../reducers';
 import thunk from 'redux-thunk';
-import { combineForms, formReducer } from 'react-redux-form';
 
-const required = value => value ? undefined : undefined;
+export const required = value => value ? undefined : undefined;
 
 export const initialState = {
   cards: [
@@ -51,19 +50,19 @@ export const initialState = {
   gameNumber: 1
 };
 
-export const initialUserConfig = {
-  age: { val: '', type: 'text', label: 'Age', name: 'age', validators: [required] },
-  gender: { val: '', type: 'text', label: 'Gender', name: 'gender', validators: [required] },
-  injury: { val: '', type: 'text', label: 'Injury', name: 'injury', validators: [required] },
-  uid: { val: 'dsfdf', type: 'text', label: 'UId', name: 'uid', validators: [required] },
-  name: { val: '', type: 'text', label: 'Name', name: 'name', validators: [required] },
-  nationality: { val: '', type: 'text', label: 'Nationality', name: 'nationality', validators: [required] },
-  ethnicity: { val: '', type: 'text', label: 'Ethnicity', name: 'ethnicty', validators: [required] }
+export const initialUserState = {
+  gender: { value: null, type: 'radio', label: 'Gender', name: 'gender', validators: [required], 'options': ['M', 'F', 'N'] },
+  injured: { value: null, type: 'radio', label: 'Injured', name: 'injured', validators: [required], 'options': ['Y', 'N'] },
+  uid: { value: '', type: 'text', label: 'User Id', name: 'uid', validators: [required] },
+  age: { value: '', type: 'text', label: 'Age', name: 'age', validators: [required] },
+  name: { value: '', type: 'text', label: 'Name', name: 'name', validators: [required] },
+  nationality: { value: '', type: 'text', label: 'Nationality', name: 'nationality', validators: [required] },
+  ethnicity: { value: '', type: 'text', label: 'Ethnicity', name: 'ethnicity', validators: [required] }
 };
 
 export const store = createStore(
     rootReducer,
-    { game: initialState },
+    { game: initialState, user: initialUserState },
     composeWithDevTools(
       applyMiddleware(thunk)
     )
