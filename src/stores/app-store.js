@@ -53,10 +53,8 @@ export const initialState = {
 export const initialUserState = {
   gender: { value: null, type: 'radio', label: 'Gender', name: 'gender', validators: [required], 'options': ['M', 'F', 'N'] },
   injured: { value: null, type: 'radio', label: 'Injured', name: 'injured', validators: [required], 'options': ['Y', 'N'] },
-  uid: { value: '', type: 'text', label: 'User Id', name: 'uid', validators: [required] },
   age: { value: '', type: 'text', label: 'Age', name: 'age', validators: [required] },
   name: { value: '', type: 'text', label: 'Name', name: 'name', validators: [required] },
-  nationality: { value: '', type: 'text', label: 'Nationality', name: 'nationality', validators: [required] },
   ethnicity: { value: '', type: 'text', label: 'Ethnicity', name: 'ethnicity', validators: [required] }
 };
 

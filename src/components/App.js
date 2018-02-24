@@ -20,7 +20,7 @@ export class App extends Component {
   }
   componentDidMount() {}
   render() {
-    // console.log('game', this.props.state);
+    console.log(typeof this.props.user.uid, 'usid');
     return (
       <div className="wrap container">
         <h1>Memory Test Game</h1>
@@ -34,7 +34,12 @@ export class App extends Component {
             return <Card {...this.props.cards[id]} key={i} id={id} onClick={this.cardClick} />
           })}
         </div>
-        <Form className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
+        {
+          (typeof this.props.user.uid === 'string')
+          ? <div className="animate"><span>Bookmark this User Id to track your progress: </span><span>{this.props.user.uid}</span></div>
+          : <Form className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
+        }
+
         <Controls className={this.rowClasses} restart={this.restart} />
         <Stats className={this.rowClasses} totalClicks={this.props.totalClicks} />
      </div>
@@ -48,7 +53,8 @@ const mapStateToProps = (state) => ({
   cards: state.game.cards,
   shuffled: state.game.shuffled,
   totalClicks: state.game.totalClicks,
-  state: state.game
+  game: state.game,
+  user: state.user
 });
 
 const mapDispatchToProps = {

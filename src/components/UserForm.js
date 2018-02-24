@@ -2,23 +2,23 @@ import React from 'react';
 import classnames from 'classnames';
 import Input from './Input';
 import { connect } from 'react-redux';
-import { onSubmit } from '../actions/game-actions';
+import { saveUser } from '../actions/game-actions';
 
 const formClasses = classnames('user-form');
 
-export const Form = (state) => {
+export const Form = (props) => {
 
     return (
-      <form className={formClasses}>
+      <form className={formClasses} onSubmit={props.onSubmit}>
         {
-          Object.keys(state)
+          Object.keys(props)
             .map((prop, pos) => {
               return (<Input
-                        type={state[prop].type}
-                        name={state[prop].name}
-                        label={state[prop].label}
-                        validate={state[prop].validators}
-                        options={state[prop].options}
+                        type={props[prop].type}
+                        name={props[prop].name}
+                        label={props[prop].label}
+                        validate={props[prop].validators}
+                        options={props[prop].options}
                         key={pos}
                       />)
             })
@@ -32,10 +32,10 @@ export const Form = (state) => {
 
 }
 
-const mapStateToProps = (state = {}) => state.user;
+const mapStateToProps = (props = {}) => props.user;
 
 const mapDispatchToProps = {
-  onSubmit
+  onSubmit: saveUser
 };
 
 const FormContainer = connect(

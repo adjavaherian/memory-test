@@ -11,7 +11,8 @@ import {
   CARD_OPEN,
   CARD_CLOSE,
   CARD_LOCK,
-  ON_CHANGE
+  ON_CHANGE,
+  SAVE_USER
 } from '../actions/game-actions';
 
 export const game = (state = {}, action) => {
@@ -67,6 +68,8 @@ export const user = (state = {}, action) => {
     case ON_CHANGE:
       state[action.name] = Object.assign({}, state[action.name], { value: action.value });
       return state;
+    case SAVE_USER:
+      return Object.assign({}, state, { saved: true, uid: action.id });
     default:
       return state;
   }

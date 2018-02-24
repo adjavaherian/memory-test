@@ -116,21 +116,27 @@ export const SET_CLOSED = 'SET_CLOSED';
 export const setClosed = () => (dispatch) => dispatch({ type: SET_CLOSED });
 
 export const SAVE_USER = 'SAVE_USER';
-export const saveUser = (user) => {
-  console.log('save user', user);
+export const saveUser = (event) => {
+  event.preventDefault();
   return (dispatch, getState) => {
       const { user } = getState();
-      // const data = form.userForm.values;
-      console.log('form', user);
-      // return true;
+
+      const data = Object.keys(user).reduce((prev, next) => {
+          prev[next] = user[next].value;
+          return prev;
+      }, {});
+
+      data.gender = data.gender === 'on' ? true : false;
+      data.injured = data.injured === 'on' ? true : false;
+
       axios({
-        url: 'http://localhost:3000/create-user',
-        method: 'put'
-        // data
+          url: 'http://emsearch.io:9200/memory-test/doc/',
+          method: 'post',
+          data
         })
         .then((response) => {
           console.log('response', response);
-          if (response.status === 200) {
+          if (response.status === 201) {
             dispatch({ type: SAVE_USER, id: response.data._id });
           }
 
@@ -142,13 +148,25 @@ export const saveUser = (user) => {
     }
 }
 
+export const ON_SUBMIT = 'ON_SUBMIT';
+export const onSubmit = (event) => {
+  event.preventDefault();
+  return (dispatch, getState) => {
+      console.log('disp', getState().user);
+      // const { user } = getState();
+      dispatch({
+        type: ON_SUBMIT
+      });
+  }
+};
+
 export const ON_CHANGE = 'ON_CHANGE';
 export const onChange = (event) => {
   // const value = evt.target.value;
   // console.log('value', value);
   const name = event.target.name;
   const value = event.target.value;
-  console.log('type', value, name);
+  // console.log('type', value, name);
   return (dispatch) => {
       // const { user } = getState();
       dispatch({
