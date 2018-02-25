@@ -3,12 +3,22 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cardClick, restart, saveUser } from '../actions/game-actions';
+import { cardClick, restart, saveUser, setuid } from '../actions/game-actions';
 import Card from './Card';
 import Stats from './Stats';
 import Controls from './Controls';
 import Form from './UserForm';
+import SavedMessages from './SavedMessages';
 import classnames from 'classnames';
+
+function checkURL (cb) {
+  if (window) {
+    const url = new URL(window.location);
+    const uid = url.searchParams.get('uid');
+    console.log('uid', uid);
+    cb(uid);
+  }
+}
 
 export class App extends Component {
   constructor(props) {
@@ -16,11 +26,12 @@ export class App extends Component {
     this.cardClick = props.cardClick.bind(this);
     this.restart = props.restart.bind(this);
     this.saveUser = props.saveUser.bind(this);
+    this.setuid = props.setuid.bind(this);
     this.rowClasses = classnames('row');
+    checkURL(this.setuid);
   }
   componentDidMount() {}
   render() {
-    console.log(typeof this.props.user.uid, 'usid');
     return (
       <div className="wrap container">
         <h1>Memory Test Game</h1>
@@ -36,7 +47,7 @@ export class App extends Component {
         </div>
         {
           (typeof this.props.user.uid === 'string')
-          ? <div className="animate"><span>Bookmark this User Id to track your progress: </span><span>{this.props.user.uid}</span></div>
+          ? <SavedMessages uid={this.props.user.uid} saved={this.props.game.saved} />
           : <Form className={this.rowClasses} handleSubmit={(val) => this.saveUser(val)} />
         }
 
@@ -60,7 +71,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   cardClick,
   restart,
-  saveUser
+  saveUser,
+  setuid
 };
 
 const AppContainer = connect(

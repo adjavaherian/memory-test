@@ -117,9 +117,13 @@ export const setClosed = () => (dispatch) => dispatch({ type: SET_CLOSED });
 
 export const SAVE_USER = 'SAVE_USER';
 export const saveUser = (event) => {
-  event.preventDefault();
+
+  if ( event ) {
+    event.preventDefault();
+  }
+
   return (dispatch, getState) => {
-      const { user } = getState();
+      const { user, game } = getState();
 
       const data = Object.keys(user).reduce((prev, next) => {
           prev[next] = user[next].value;
@@ -128,6 +132,8 @@ export const saveUser = (event) => {
 
       data.gender = data.gender === 'on' ? true : false;
       data.injured = data.injured === 'on' ? true : false;
+
+      data['totalClicks'] = game.totalClicks;
 
       axios({
           url: 'http://emsearch.io:9200/memory-test/doc/',
@@ -138,6 +144,7 @@ export const saveUser = (event) => {
           console.log('response', response);
           if (response.status === 201) {
             dispatch({ type: SAVE_USER, id: response.data._id });
+            dispatch(gameSaved(response.data._id));
           }
 
         })
@@ -148,17 +155,84 @@ export const saveUser = (event) => {
     }
 }
 
-export const ON_SUBMIT = 'ON_SUBMIT';
-export const onSubmit = (event) => {
-  event.preventDefault();
+export const UPDATE_USER = 'UPDATE_USER';
+export const updateUser = () => {
   return (dispatch, getState) => {
-      console.log('disp', getState().user);
-      // const { user } = getState();
-      dispatch({
-        type: ON_SUBMIT
+
+    const { game, user } = getState();
+    const totalClicks = game.totalClicks || 0;
+    const uid = user.uid;
+
+    axios({
+        url: `http://emsearch.io:9200/memory-test/doc/${uid}/_update`,
+        method: 'post',
+        data: {
+        'script' : {
+            'lang':'painless',
+            'inline': 'ctx._source.totalClicks.add(params.totalClicks)',
+            'params':{
+              totalClicks
+            }
+          }
+
+        }
+      })
+      .then((response) => {
+        console.log('response', response);
+        if (response.status === 201) {
+          dispatch(gameSaved(response.data._id));
+        }
+
+      })
+      .catch((err) => {
+        console.log('error', err);
       });
   }
-};
+}
+
+export const GAME_COMPLETED = 'GAME_COMPLETED';
+export const gameCompleted = () => {
+
+    return (dispatch, getState) => {
+
+      const { user } = getState();
+
+      if ( user.uid ) {
+        dispatch(updateUser());
+      } else {
+        dispatch(saveUser());
+      }
+
+    }
+}
+
+export const GAME_SAVED = 'GAME_SAVED';
+export const gameSaved = (uid = '') => {
+  console.log('game saved!');
+  if (history.pushState) {
+      const newurl = `${window.location.protocol}//${window.location.host + window.location.pathname}?uid=${uid}`;
+      window.history.pushState({ path: newurl }, '', newurl);
+  }
+}
+
+export const SET_UID = 'SET_UID';
+export const setuid = (uid = '') => {
+  return (dispatch) => {
+      dispatch({ type: SET_UID, uid });
+  }
+}
+
+// export const ON_SUBMIT = 'ON_SUBMIT';
+// export const onSubmit = (event) => {
+//   event.preventDefault();
+//   return (dispatch, getState) => {
+//       console.log('disp', getState().user);
+//       // const { user } = getState();
+//       dispatch({
+//         type: ON_SUBMIT
+//       });
+//   }
+// };
 
 export const ON_CHANGE = 'ON_CHANGE';
 export const onChange = (event) => {
