@@ -6,19 +6,19 @@ import { saveUser } from '../actions/game-actions';
 
 const formClasses = classnames('user-form');
 
-export const Form = (props) => {
-
+export const Form = ({ user, onSubmit }) => {
     return (
-      <form className={formClasses} onSubmit={props.onSubmit}>
+      <form className={formClasses} onSubmit={onSubmit}>
         {
-          Object.keys(props)
+          Object.keys(user)
+            .filter((prop) => user[prop] !== null)
             .map((prop, pos) => {
               return (<Input
-                        type={props[prop].type}
-                        name={props[prop].name}
-                        label={props[prop].label}
-                        validate={props[prop].validators}
-                        options={props[prop].options}
+                        type={user[prop].type}
+                        name={user[prop].name}
+                        label={user[prop].label}
+                        validate={user[prop].validators}
+                        options={user[prop].options}
                         key={pos}
                       />)
             })
@@ -32,7 +32,9 @@ export const Form = (props) => {
 
 }
 
-const mapStateToProps = (props = {}) => props.user;
+const mapStateToProps = (state = {}) => ({
+    user: state.user
+});
 
 const mapDispatchToProps = {
   onSubmit: saveUser

@@ -6,9 +6,12 @@ export const SavedMessages = (props) => {
                 ? `${props.uid}`
                 : '';
 
-  const saved = props.saved
+  const saved = props.completed
                 ? 'Bookmark this page now, and use it to track your progress on subsequent games.'
-                : 'Welcome back.  We\'ll track your click progress';
+                : 'Welcome back.  We\'ll track your click progress.';
+
+  // const completed = props.completed
+  //               ? 'Book '
 
   return (
     <div className="animate">

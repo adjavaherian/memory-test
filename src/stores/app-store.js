@@ -47,7 +47,9 @@ export const initialState = {
   ],
   totalClicks: 0,
   open: null,
-  gameNumber: 1
+  gameNumber: 1,
+  matched: [],
+  completed: false
 };
 
 export const initialUserState = {

@@ -78,6 +78,7 @@ export const cardClick = (id) => {
           console.log('card match');
           dispatch(cardLock(prevCard));
           dispatch(cardLock(currentCard));
+          dispatch(matched(prevCard, currentCard));
       } else {
         // close both cards, null
         console.log('no match');
@@ -94,8 +95,45 @@ export const cardClick = (id) => {
   }
 };
 
-export const RESTART = 'RESTART';
-export const restart = () => (dispatch) => dispatch({ type: RESTART });
+export const MATCHED = 'MATCHED';
+export const matched = (prev, curr) => {
+  return (dispatch) => {
+
+    dispatch({ type: MATCHED, prev, curr });
+    dispatch(checkCompleted());
+
+    return true;
+
+  }
+}
+
+export const COMPLETED = 'COMPLETED';
+export const checkCompleted = () => {
+  return (dispatch, getState) => {
+
+    const { game } = getState();
+
+    if (game.matched.length == game.shuffled.length) {
+
+       return dispatch(gameCompleted());
+
+    }
+
+  }
+}
+
+export const RESET_CARDS = 'RESET_CARDS';
+export const RESTARTED = 'RESTARTED';
+export const RESET_COMPLETED = 'RESET_COMPLETED';
+export const restart = () => {
+  return (dispatch) => {
+    dispatch({ type: RESET_COMPLETED });
+    dispatch({ type: RESET_CARDS });
+    dispatch(createDeck());
+    dispatch(shuffleDeck());
+    dispatch({ type: RESTARTED });
+  }
+};
 
 export const CARD_OPEN = 'CARD_OPEN';
 export const cardOpen = (id) => (dispatch) => dispatch({ type: CARD_OPEN, id });
@@ -125,15 +163,17 @@ export const saveUser = (event) => {
   return (dispatch, getState) => {
       const { user, game } = getState();
 
-      const data = Object.keys(user).reduce((prev, next) => {
-          prev[next] = user[next].value;
-          return prev;
-      }, {});
+      const data = Object.keys(user)
+                      .filter((val) => user[val] !== null)
+                      .reduce((prev, next) => {
+                          prev[next] = user[next].value;
+                          return prev;
+                      }, {});
 
       data.gender = data.gender === 'on' ? true : false;
       data.injured = data.injured === 'on' ? true : false;
 
-      data['totalClicks'] = game.totalClicks;
+      data['totalClicks'] = [game.totalClicks];
 
       axios({
           url: 'http://emsearch.io:9200/memory-test/doc/',
@@ -156,12 +196,15 @@ export const saveUser = (event) => {
 }
 
 export const UPDATE_USER = 'UPDATE_USER';
+export const STORE_USER_UPDATE = 'STORE_USER_UPDATE';
 export const updateUser = () => {
   return (dispatch, getState) => {
 
     const { game, user } = getState();
     const totalClicks = game.totalClicks || 0;
     const uid = user.uid;
+
+    dispatch({ type: UPDATE_USER });
 
     axios({
         url: `http://emsearch.io:9200/memory-test/doc/${uid}/_update`,
@@ -179,7 +222,8 @@ export const updateUser = () => {
       })
       .then((response) => {
         console.log('response', response);
-        if (response.status === 201) {
+        if (response.status === 200) {
+          dispatch({ type: STORE_USER_UPDATE, data: response.data });
           dispatch(gameSaved(response.data._id));
         }
 
@@ -197,6 +241,8 @@ export const gameCompleted = () => {
 
       const { user } = getState();
 
+      dispatch({ type: GAME_COMPLETED });
+
       if ( user.uid ) {
         dispatch(updateUser());
       } else {
@@ -208,11 +254,17 @@ export const gameCompleted = () => {
 
 export const GAME_SAVED = 'GAME_SAVED';
 export const gameSaved = (uid = '') => {
-  console.log('game saved!');
-  if (history.pushState) {
-      const newurl = `${window.location.protocol}//${window.location.host + window.location.pathname}?uid=${uid}`;
-      window.history.pushState({ path: newurl }, '', newurl);
-  }
+    return (dispatch) => {
+
+      dispatch({ type: GAME_SAVED });
+      console.log('game saved');
+
+      if (history.pushState) {
+          const newurl = `${window.location.protocol}//${window.location.host + window.location.pathname}?uid=${uid}`;
+          window.history.pushState({ path: newurl }, '', newurl);
+      }
+
+    }
 }
 
 export const SET_UID = 'SET_UID';
@@ -221,18 +273,6 @@ export const setuid = (uid = '') => {
       dispatch({ type: SET_UID, uid });
   }
 }
-
-// export const ON_SUBMIT = 'ON_SUBMIT';
-// export const onSubmit = (event) => {
-//   event.preventDefault();
-//   return (dispatch, getState) => {
-//       console.log('disp', getState().user);
-//       // const { user } = getState();
-//       dispatch({
-//         type: ON_SUBMIT
-//       });
-//   }
-// };
 
 export const ON_CHANGE = 'ON_CHANGE';
 export const onChange = (event) => {

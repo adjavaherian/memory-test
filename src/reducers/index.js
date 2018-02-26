@@ -1,5 +1,6 @@
 // reducers.js
 import { combineReducers } from 'redux';
+import { initialState } from '../stores/app-store';
 
 import {
   CREATE_DECK,
@@ -11,9 +12,14 @@ import {
   CARD_OPEN,
   CARD_CLOSE,
   CARD_LOCK,
+  MATCHED,
   ON_CHANGE,
   SAVE_USER,
-  SET_UID
+  SET_UID,
+  STORE_USER_UPDATE,
+  GAME_COMPLETED,
+  RESET_CARDS,
+  RESET_COMPLETED
 } from '../actions/game-actions';
 
 export const game = (state = {}, action) => {
@@ -58,6 +64,17 @@ export const game = (state = {}, action) => {
       return Object.assign({}, state, {
         open: null
       });
+    case MATCHED:
+      const updatedMatched = state.matched.concat([action.prev, action.curr]);
+      return Object.assign({}, state, {
+        matched: updatedMatched
+      });
+    case GAME_COMPLETED:
+      return Object.assign({}, state, { completed: true });
+    case RESET_CARDS:
+      return Object.assign({}, state, { cards: initialState.cards, matched: [] });
+    case RESET_COMPLETED:
+      return Object.assign({}, state, { completed: false, totalClicks: 0 });
     default:
       return state;
   }
@@ -73,6 +90,8 @@ export const user = (state = {}, action) => {
       return Object.assign({}, state, { saved: true, uid: action.id });
     case SET_UID:
       return Object.assign({}, state, { uid: action.uid });
+    case STORE_USER_UPDATE:
+      return Object.assign({}, state, { update_data: action.data });
     default:
       return state;
   }
